@@ -17,6 +17,8 @@ class TestAddFunction(unittest.TestCase):
         self.assertEqual(add_function(1,2),3)
     def test6(self):
         self.assertEqual(add_function(1,2),3)
+    def test7(self):
+        self.assertEqual(add_function(2,3),5)
 
 
 if __name__ == '__main__':

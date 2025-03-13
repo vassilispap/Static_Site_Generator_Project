@@ -18,6 +18,7 @@ class TestTextNode(unittest.TestCase):
         node10 = TextNode("tria poulakia kathontan", TextType.ITALIC, "www.google.com")
         node11 = TextNode("tria poulakia kathontan", TextType.ITALIC, "www.boot.dev")
         self.assertNotEqual(node10, node11)
-        
+
+
 if __name__ == "__main__":
     unittest.main()
