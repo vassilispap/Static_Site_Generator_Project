@@ -1,0 +1,100 @@
+import unittest
+from markdown_blocks import markdown_to_blocks
+from markdown_blocks import block_to_block_type
+from markdown_blocks import BlockType
+
+
+
+
+class TestMarkdownBlocks(unittest.TestCase):
+
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+
+    def test_markdown_to_blocks2(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+  - This is a list
+- with items
+
+
+
+
+And this is an epilogue    
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+                "And this is an epilogue",
+            ],
+        )
+
+    def test_block_to_block_type(self):
+        md = """
+# This is a heading
+
+This is paragraph here
+This is the same paragraph on a new line
+
+- This is an unordered list
+- with items
+- more items
+
+1. This is an ordered list
+2. with items
+3. more items
+
+And here and some high sophisticated code:
+'''print("hello world")'''
+"""
+
+        blocks = [block_to_block_type("##### This is a heading"),
+                  block_to_block_type("This is paragraph here/nThis is the same paragraph on a new line"),
+                  block_to_block_type("- This is an unordered list\n- with items\n- more items"),
+                  block_to_block_type("1. This is an ordered list\n2. with items\n3. more items"),
+                  block_to_block_type("And here and some high sophisticated code:"),
+                  block_to_block_type("```print('hello world')```")]
+        self.assertListEqual(
+            blocks,
+            [
+                BlockType.HEADING,
+                BlockType.PARAGRAPH,
+                BlockType.UNORDERED_LIST,
+                BlockType.ORDERED_LIST,
+                BlockType.PARAGRAPH,
+                BlockType.CODE,
+            ],
+        )
+
+
+
+
+
+if __name__ == "__main__":
+    unittest.main()
+
